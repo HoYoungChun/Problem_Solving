@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/10828
 
 if __name__ == "__main__":
     import sys
