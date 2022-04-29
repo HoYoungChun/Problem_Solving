@@ -15,7 +15,7 @@ def solution(clothes):
     return reduce(lambda x, y: x*y, one_plus_cloth_kind_nums) - 1
 
 
-# 시간초과 풀이
+# # 시간초과 풀이
 # from collections import defaultdict
 # from itertools import combinations
 # from functools import reduce

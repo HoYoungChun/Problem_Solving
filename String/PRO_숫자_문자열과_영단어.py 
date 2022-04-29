@@ -1,0 +1,7 @@
+def solution(s):
+    num_eng_match = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+
+    for i, eng in enumerate(num_eng_match):
+        s = s.replace(eng, str(i))
+
+    return int(s)
