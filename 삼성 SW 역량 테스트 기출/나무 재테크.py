@@ -1,5 +1,6 @@
 # 2022/10/05 00:05시작 01:00 AC 처리
 # 문제: https://www.acmicpc.net/problem/16235
+# 블로그 풀이: https://velog.io/@hozero/BOJ-16235%EB%B2%88-%EB%82%98%EB%AC%B4-%EC%9E%AC%ED%85%8C%ED%81%AC-Python-%EC%82%BC%EC%84%B1-SW-%EC%97%AD%EB%9F%89-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B8%B0%EC%B6%9C-%EB%AC%B8%EC%A0%9C
 
 
 if __name__ == "__main__":
