@@ -1,10 +1,5 @@
-EMPTY=0
-WALL=1
-
-NORTH=0
-EAST=1
-SOUTH=2
-WEST=3
+EMPTY, WALL = 0, 1
+NORTH, EAST, SOUTH, WEST = 0, 1, 2, 3
 
 find_left = [(0,-1),(-1,0),(0,1),(1,0)] # 방향 d 인덱스 기준으로 왼쪽 방향 찾기
 find_back = [(1,0),(0,-1),(-1,0),(0,1)] # 방향 d 인덱스 기준으로 뒤 방향 찾기
@@ -22,7 +17,7 @@ room = [list(map(int, input().split())) for _ in range(N)]
 
 ans = 0
 while True:
-  if not cleaned[r][c]: # 1.
+  if not cleaned[r][c]: # 1. 현재 위치를 청소한다.
     cleaned[r][c]=True
     ans +=1
 
