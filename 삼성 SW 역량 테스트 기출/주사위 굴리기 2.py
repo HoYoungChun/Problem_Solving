@@ -1,6 +1,6 @@
 from collections import deque
 
-DX_XY = [(-1,0),(0,1),(1,0),(0,-1)]
+DX_DY = [(-1,0),(0,1),(1,0),(0,-1)]
 NORTH, EAST, SOUTH, WEST = 0,1,2,3 # +1은 시계방향,-1은 반시계방향
 INVERSE_DIRECTION = {NORTH: SOUTH, EAST: WEST, SOUTH: NORTH, WEST: EAST}
 
@@ -27,13 +27,13 @@ class Dice:
     
     def move(self):
         # 이동방향 막혀있으면 반대로 변경
-        dx,dy = DX_XY[self.direction]
+        dx,dy = DX_DY[self.direction]
         move_x,move_y = self.x+dx, self.y+dy
         if not is_valid(move_x,move_y):
             self.direction = INVERSE_DIRECTION[self.direction]
         
         # 주사위 좌표 변경
-        dx,dy = DX_XY[self.direction]
+        dx,dy = DX_DY[self.direction]
         self.x, self.y = self.x+dx, self.y+dy
 
         # 주사위 칸 번호 변경
@@ -65,7 +65,7 @@ def get_connected_cnt(x,y):
 
     while queue:
         x,y = queue.pop()
-        for dx, dy in DX_XY:
+        for dx, dy in DX_DY:
             check_x = x+dx
             check_y = y+dy
             if is_valid(check_x,check_y) and not visited[check_x][check_y]\
