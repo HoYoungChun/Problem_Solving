@@ -29,17 +29,13 @@ def two_d_move(graph):
 
 def one_d_move(one_list):
     """1차원 리스트에서 왼쪽으로 중력 작용"""
-    for from_idx in range(1,N): # 1~N-1
-        if one_list[from_idx] >= 0: # 일반&무지개 블록
-            change_idx = 0
-            for j in reversed(range(from_idx)): # 0~i-1
-                if one_list[j] >= -1: # 다른블록 만나면
-                    change_idx = j+1
-                    break
-            
-            if change_idx != from_idx:
-                one_list[change_idx] = one_list[from_idx]
-                one_list[from_idx] = EMPTY
+    for from_idx in range(1,N):
+        if one_list[from_idx] >= 0:
+            check_idx = from_idx -1
+            while check_idx >= 0 and one_list[check_idx] == EMPTY:
+                # SWAP
+                one_list[check_idx],one_list[check_idx+1] = one_list[check_idx+1],one_list[check_idx]
+                check_idx -= 1
 
 def bfs(i,j):
     """(i,j) 일반블록에서 만들 수 있는 최대 블록 그룹 구해서 정보 반환"""
