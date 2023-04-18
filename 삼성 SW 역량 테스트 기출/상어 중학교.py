@@ -14,28 +14,39 @@ def is_valid(i,j):
         return True
     return False
 
+# def two_d_move(graph):
+#     # 시계 회전
+#     graph = list(map(list,zip(*graph[::-1])))
+
+#     # 각 row별 1차원 중력 적용
+#     for g in graph:
+#         one_d_move(g)
+
+#     # 반시계 회전
+#     graph = list(map(list,zip(*graph)))[::-1]
+
+#     return graph
+
+# def one_d_move(one_list):
+#     """1차원 리스트에서 왼쪽으로 중력 작용"""
+#     for from_idx in range(1,N):
+#         check_idx = from_idx -1
+#         while check_idx >= 0 and one_list[check_idx] == EMPTY:
+#             # SWAP
+#             one_list[check_idx],one_list[check_idx+1] = one_list[check_idx+1],one_list[check_idx]
+#             check_idx -= 1
+
 def two_d_move(graph):
-    # 시계 회전
-    graph = list(map(list,zip(*graph[::-1])))
-
-    # 각 row별 1차원 중력 적용
-    for g in graph:
-        one_d_move(g)
-
-    # 반시계 회전
-    graph = list(map(list,zip(*graph)))[::-1]
-
+    for y in range(N): # y좌표: 0~N-1
+        for from_idx in reversed(range(N-1)): # 당길 x좌표: N-2,N-1,...0
+            if graph[from_idx][y] >= 0:
+                check_idx = from_idx + 1
+                while check_idx <= N-1 and graph[check_idx][y] == EMPTY:
+                    # SWAP
+                    graph[check_idx][y],graph[check_idx-1][y] = graph[check_idx-1][y], graph[check_idx][y]
+                    check_idx += 1
     return graph
 
-def one_d_move(one_list):
-    """1차원 리스트에서 왼쪽으로 중력 작용"""
-    for from_idx in range(1,N):
-        if one_list[from_idx] >= 0:
-            check_idx = from_idx -1
-            while check_idx >= 0 and one_list[check_idx] == EMPTY:
-                # SWAP
-                one_list[check_idx],one_list[check_idx+1] = one_list[check_idx+1],one_list[check_idx]
-                check_idx -= 1
 
 def bfs(i,j):
     """(i,j) 일반블록에서 만들 수 있는 최대 블록 그룹 구해서 정보 반환"""
