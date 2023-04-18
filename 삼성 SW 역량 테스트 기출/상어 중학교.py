@@ -1,7 +1,12 @@
 from collections import deque
 
-EMPTY, BLACK, RAINBOW = -2, -1, 0
+EMPTY, BLACK, RAINBOW = -float('inf'), -1, 0 # 1이상은 일반블록
 DX_DY = [(0,1),(1,0),(0,-1),(-1,0)]
+
+def print_graph(graph):
+    """디버깅용"""
+    for g in graph:
+        print(g)
 
 def is_valid(i,j):
     """범위에 있는지만 체크"""
@@ -9,12 +14,32 @@ def is_valid(i,j):
         return True
     return False
 
+def two_d_move(graph):
+    # 시계 회전
+    graph = list(map(list,zip(*graph[::-1])))
+
+    # 각 row별 1차원 중력 적용
+    for g in graph:
+        one_d_move(g)
+
+    # 반시계 회전
+    graph = list(map(list,zip(*graph)))[::-1]
+
+    return graph
+
 def one_d_move(one_list):
     """1차원 리스트에서 왼쪽으로 중력 작용"""
-    for from_idx in range(1,N):
-        pass
-
-
+    for from_idx in range(1,N): # 1~N-1
+        if one_list[from_idx] >= 0: # 일반&무지개 블록
+            change_idx = 0
+            for j in reversed(range(from_idx)): # 0~i-1
+                if one_list[j] >= -1: # 다른블록 만나면
+                    change_idx = j+1
+                    break
+            
+            if change_idx != from_idx:
+                one_list[change_idx] = one_list[from_idx]
+                one_list[from_idx] = EMPTY
 
 def bfs(i,j):
     """(i,j) 일반블록에서 만들 수 있는 최대 블록 그룹 구해서 정보 반환"""
@@ -51,14 +76,13 @@ def bfs(i,j):
 N, M = map(int, input().split())
 graph = [list(map(int, input().split())) for _ in range(N)]
 
-
 score = 0
 
 while True:
     block_cand = []
     for i in range(N):
         for j in range(N):
-            if graph[i][j] > 0: # 일반블록
+            if graph[i][j] > 0: # 일반&무지개블록
                 ij_list, rainbow_cnt, main_blocK_ij = bfs(i,j)
                 if len(ij_list) >= 2: # 블록 2개 이상이어야 블록그룹
                     block_cand.append((ij_list, rainbow_cnt, main_blocK_ij))
@@ -75,13 +99,13 @@ while True:
     for i, j in delete_ij_list:
         graph[i][j] = EMPTY
 
-    # TODO 중력 작용
+    # 중력 작용
+    graph = two_d_move(graph)
 
     # !반시계 회전
     graph = list(map(list, zip(*graph)))[::-1]
 
-    # TODO 중력 작용
-
-    break # 디버깅용
+    # 중력 작용
+    graph = two_d_move(graph)
 
 print(score)
