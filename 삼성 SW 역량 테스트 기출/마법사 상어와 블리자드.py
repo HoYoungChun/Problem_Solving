@@ -48,6 +48,14 @@ def list_to_graph(one_list):
     
     return new_graph
 
+def marble_move(one_list):
+    """왼쪽으로 빈칸 없애면서 이동"""
+    for from_idx in range(1,len(one_list)):
+        target_idx = from_idx-1
+        while target_idx >=0 and one_list[target_idx]==EMPTY:
+            one_list[target_idx], one_list[target_idx+1] = one_list[target_idx+1], one_list[target_idx]
+            target_idx-=1
+
 
 N,M = map(int, input().split())
 graph = [list(map(int,input().split())) for _ in range(N)]
@@ -68,10 +76,12 @@ for d,s in ds_list:
 
     # graph -> list
     one_list = graph_to_list(graph)
+    print(one_list)
 
-    # TODO 2. 구슬이동(앞으로 당기기)
+    # 2. 구슬이동(앞으로 당기기)
+    marble_move(one_list)
 
-    # TODO 3. 구슬폭발(빈칸생성) => 정답갱신
+    # TODO 3. 구슬폭발(빈칸생성) 불가능할때까지 => 정답갱신
 
     # TODO 4. 구슬변화
     
