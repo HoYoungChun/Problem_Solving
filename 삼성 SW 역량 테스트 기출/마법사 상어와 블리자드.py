@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 EMPTY = -float('inf')
 DX_DY = [0,(-1,0),(1,0),(0,-1),(0,1)] # d(방향)에 대응
 
@@ -56,6 +59,51 @@ def marble_move(one_list):
             one_list[target_idx], one_list[target_idx+1] = one_list[target_idx+1], one_list[target_idx]
             target_idx-=1
 
+def marble_explode(one_list):
+    global ans
+    is_explode = False # 폭발하는지
+
+    cnt = 1
+    for idx in range(1,len(one_list)):
+        if one_list[idx] == one_list[idx-1] and one_list[idx]!=EMPTY:
+            cnt += 1
+        else:
+            if cnt >= 4:
+                for j in range(cnt):
+                    ans += one_list[idx-1-j]
+                    one_list[idx-1-j] = EMPTY
+                is_explode = True
+            cnt = 1
+    
+    if cnt >= 4:
+        for j in range(cnt):
+            ans += one_list[idx-1-j]
+            one_list[idx-1-j] = EMPTY
+        is_explode = True
+    
+    return is_explode
+
+def marble_change(one_list):
+    new_list = []
+    cnt = 1
+    for idx in range(1,len(one_list)):
+        if one_list[idx-1] == EMPTY or len(new_list) > len(one_list): # 넘치면 바로 멈추기
+            break
+
+        if one_list[idx] == one_list[idx-1]:
+            cnt += 1
+        else:
+            if one_list[idx-1] == EMPTY:
+                new_list.append(EMPTY)
+            else:
+                new_list.extend([cnt,one_list[idx-1]])
+                cnt = 1
+    
+    if len(new_list) < len(one_list):
+        new_list.extend([EMPTY]*(len(one_list)-len(new_list)))
+        
+    return new_list[:len(one_list)] # 넘치는건 자르기
+
 
 N,M = map(int, input().split())
 graph = [list(map(int,input().split())) for _ in range(N)]
@@ -69,6 +117,7 @@ for i in range(N):
 
 shark_x = shark_y = (N-1)//2 # 상어좌표
 graph_move_ij = get_graph_move_ij()
+ans = 0 # 폭발할 때 갱신
 
 for d,s in ds_list:
     # 1. 구슬파괴(빈칸생성)
@@ -76,16 +125,21 @@ for d,s in ds_list:
 
     # graph -> list
     one_list = graph_to_list(graph)
-    print(one_list)
 
     # 2. 구슬이동(앞으로 당기기)
     marble_move(one_list)
 
-    # TODO 3. 구슬폭발(빈칸생성) 불가능할때까지 => 정답갱신
+    # 3. 구슬폭발(빈칸생성) 불가능할때까지 => 정답갱신
+    is_explode = True
+    while is_explode:
+        is_explode = marble_explode(one_list)
+        marble_move(one_list)   
 
-    # TODO 4. 구슬변화
+    # 4. 구슬변화
+    one_list = marble_change(one_list)
     
     # graph -> list
     graph = list_to_graph(one_list)
+    
 
-    break
+print(ans)
