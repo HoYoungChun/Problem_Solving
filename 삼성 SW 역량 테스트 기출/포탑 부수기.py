@@ -21,7 +21,7 @@ def bfs():
             if arr[new_x][new_y] != 0 and not visited[new_x][new_y]:
                 new_path = path + [(new_x, new_y)]
                 visited[new_x][new_y] = True
-                queue.appendleft((new_x, new_y, new_path)) # !appendleft해야됨
+                queue.appendleft((new_x, new_y, new_path)) # !!!appendleft해야됨
 
     return False, path  # 도달 못함
 
