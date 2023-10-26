@@ -5,6 +5,4 @@ class Solution:
             if i <= max_index:
                 max_index = max(max_index, i+num)
 
-        if max_index >= len(nums)-1: # 마지막 인덱스보다 크거나 같으면 도달 가능
-            return True
-        return False
+        return max_index >= len(nums)-1 # 마지막 인덱스보다 크거나 같으면 도달 가능
